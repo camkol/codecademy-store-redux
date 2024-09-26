@@ -11,7 +11,7 @@ export const App = (props) => {
   const { state, dispatch } = props;
 
   return (
-    <div className="app">
+    <div id="app">
       <CurrencyFilter
         currencyFilter={state.currencyFilter}
         dispatch={dispatch}
