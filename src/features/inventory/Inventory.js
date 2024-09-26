@@ -7,7 +7,12 @@ import {
 import { addItem } from "../cart/cartSlice.js";
 import { loadData } from "./inventorySlice";
 
-export const Inventory = ({ inventory, currencyFilter, dispatch }) => {
+export const Inventory = ({
+  inventory,
+  currencyFilter,
+  searchTerm,
+  dispatch,
+}) => {
   const onMount = () => {
     dispatch(loadData());
   };
@@ -17,11 +22,19 @@ export const Inventory = ({ inventory, currencyFilter, dispatch }) => {
     dispatch(addItem(inventoryItem));
   };
 
-  if (inventory.length === 0) {
+  const filteredInventory = inventory.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (filteredInventory.length === 0) {
     return <p> Sorry, no products are currently available... </p>;
   }
 
-  return <ul id="inventory-container">{inventory.map(createInventoryItem)}</ul>;
+  return (
+    <ul id="inventory-container">
+      {filteredInventory.map(createInventoryItem)}
+    </ul>
+  );
 
   function createInventoryItem(inventoryItem) {
     const { price, name, img } = inventoryItem;
